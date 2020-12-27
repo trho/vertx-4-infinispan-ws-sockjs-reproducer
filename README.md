@@ -13,9 +13,13 @@ The complete setup of this reproducer is needed, changing one of the following "
 To reproduce the issue run start.sh and follow the instructions:
 
 Open browser http://localhost:8888/static/index.html
+
 and refresh until the output changes from
+
   'websocket: closed. Reason: All transports failed, code : 2000'
-to"
+  
+to
+
   'websocket: connected'
 
 # Analysis
