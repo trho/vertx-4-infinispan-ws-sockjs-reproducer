@@ -27,7 +27,7 @@ Afterward this is not relevant anymore and every websocket connection is establi
 I traced the execution and the endHandler is never called in Http1xServerRequest.webSocket(..):
 
 io.vertx.core.http.impl.Http1xServerRequest.java
-
+```
   public Future<ServerWebSocket> toWebSocket() {
     return webSocket().map(ws -> { // stuck
       ws.accept(); // not reached for the first 5-7 requests
@@ -57,7 +57,7 @@ private void webSocket(PromiseInternal<ServerWebSocket> promise) {
         );
         conn.createWebSocket(this, promise);
       }
-
+```
 # Expected output of the reproducer (I removed traces of static resources):
 
 2020-12-27 17:59:29,275 [vert.x-eventloop-thread-8] TRACE io.vertx.ext.web.impl.RouterImpl - Router: 1156067491 accepting request GET http://localhost:8888/eventbus/info?t=1609088369270
