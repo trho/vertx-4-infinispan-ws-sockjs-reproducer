@@ -8,7 +8,7 @@ The complete setup of this reproducer is needed, changing one of the following "
 
  * replacing several verticles by one verticle (Main.java:43)
  * ClusteredSessionStore with LocalSessionStore in (MainVerticle.java:57)
- * Infinispan with Hazelcast cluster manager (Main.java:26)
+ * replacing Infinispan with Hazelcast cluster manager (Main.java:26)
 
 To reproduce the issue run start.sh and follow the instructions:
 
