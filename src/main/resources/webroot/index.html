@@ -1,0 +1,46 @@
+<html>
+<head>
+  <script src="https://unpkg.io/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+  <script src='https://unpkg.io/@vertx/eventbus-bridge-client.js@1.0.0-1/vertx-eventbus.js'></script>
+<!--  <script src='https://unpkg.com/vertx3-eventbus-client@3.9.4/vertx-eventbus.js'></script>-->
+  <script>
+
+    console.log('open eventbus');
+    let eventbusOptions = {
+      transports: ['websocket']
+    };
+
+    let eb = new EventBus('http://localhost:8888/eventbus', eventbusOptions);
+
+    eb.onopen = () => {
+      console.log('connnected');
+      document.getElementById('output').textContent = 'connected';
+      // set a handler to receive a message
+      // eb.registerHandler('some-address', (error, message) => {
+      //   console.log('received a message: ' + JSON.stringify(message));
+      // });
+      // send a message
+   //   eb.send('some-address', {name: 'tim', age: 587});
+    }
+    eb.onclose = (evt) => {
+      console.log('onclose');
+      document.getElementById('output').textContent = 'closed. Reason: ' + evt.reason + ', code : ' + evt.code;
+      console.warn(evt);
+    };
+
+    eb.onerror = (evt) => {
+      console.log('onerror');
+      document.getElementById('output').textContent = 'error. Reason: ' + evt.reason + ', code : ' + evt.code;
+      console.error(evt);
+    };
+
+  </script>
+
+</head>
+<body>
+<div>Sockjs Test</div>
+<div>websocket: <span id="output">connecting ...</span></div>
+</body>
+</html>
+
+

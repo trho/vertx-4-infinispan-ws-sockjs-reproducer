@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016 Red Hat, Inc.
+  ~
+  ~ Red Hat licenses this file to you under the Apache License, version 2.0
+  ~ (the "License"); you may not use this file except in compliance with the
+  ~ License.  You may obtain a copy of the License at:
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+  ~ License for the specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:infinispan:config:9.4 http://www.infinispan.org/schemas/infinispan-config-9.4.xsd"
+            xmlns="urn:infinispan:config:9.4">
+
+    <jgroups>
+        <stack-file name="jgroups" path="default-configs/default-jgroups-tcp.xml"/>
+    </jgroups>
+
+    <!--activate jmx statistics-->
+
+    <!--<cache-container statistics="true" default-cache="__vertx.distributed.cache" >-->
+    <cache-container default-cache="distributed-cache" >
+
+        <transport stack="jgroups" cluster="infinispan-sockjs-test"/>
+
+        <distributed-cache-configuration name="__vertx.distributed.cache.configuration"/>
+        <distributed-cache name="distributed-cache"/>
+       <replicated-cache name="__vertx.subs">
+       </replicated-cache>
+        <replicated-cache name="__vertx.haInfo">
+        </replicated-cache>
+        <distributed-cache name="__vertx.distributed.cache">
+        </distributed-cache>
+        <distributed-cache name="__vertx.nodeInfo">
+        </distributed-cache>
+        <distributed-cache name="vertx-web.sessions">
+        </distributed-cache>
+
+
+        <!--
+        http://infinispan.org/docs/stable/upgrading/upgrading.html#upgrading_from_8_x_to_9_0
+        Since Infinispan 9.0:
+        - Default configuration for transactional caches lastModified from READ_COMMITTED and OPTIMISTIC locking
+            to REPEATABLE_READ and OPTIMISTIC locking with write-skew check enabled.
+        - <versioning> and its attributes: automatically enabled and configured.
+        -->
+        <distributed-cache statistics="true" name="index.cache">
+            <transaction mode="BATCH" />
+        </distributed-cache>
+        <distributed-cache statistics="true" name="publicCatalogs">
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </distributed-cache>
+        <distributed-cache statistics="true" name="composite">
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </distributed-cache>
+        <replicated-cache statistics="true" name="auth" >
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </replicated-cache>
+        <distributed-cache statistics="true" name="lifeSync" >
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </distributed-cache>
+        <replicated-cache name="authIndex" >
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </replicated-cache>
+        <replicated-cache name="redisStatus" >
+            <transaction mode="BATCH" locking="PESSIMISTIC"/>
+            <expiration lifespan="259200000"/>
+        </replicated-cache>
+
+
+    </cache-container>
+
+</infinispan>

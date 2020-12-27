@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <jmxConfigurator />
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} [%thread] %-5level %logger{45} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNC-DEMO" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>500</queueSize>
+    <discardingThreshold>0</discardingThreshold>
+    <appender-ref ref="STDOUT"/>
+  </appender>
+
+  <logger name="com.github.trho.reproducer" level="INFO"/>
+  <logger name="ch.qos.logback" level="WARN"/>
+
+  <!-- Vert.x-->
+  <logger name="io.vertx" level="INFO"/>
+  <logger name="io.vertx.ext.web.impl.RouterImpl" level="TRACE"/>
+  <logger name="io.netty" level="INFO"/>
+
+  <logger name="io.netty.util.internal.PlatformDependent" level="ERROR"/>
+  <logger name="org.infinispan" level="WARN"/>
+
+  <logger name="org.jgroups.level" level="INFO"/>
+  <logger name="io.vertx.core.metrics" level="ERROR"/>
+
+<!--  <logger name="com.hazelcast" level="TRACE"/>-->
+
+  <root level="WARN">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>
