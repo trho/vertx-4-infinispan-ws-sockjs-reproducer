@@ -1,7 +1,8 @@
 # The issue
-Since vert.x 4.0.0.Beta3 websocket connections for sockjs bridge are not established
-for a load-balanced verticle with several instances until the same instance was queried twice.
-With 2 instances the second websocket connection fails, with 3+ at least the first one.
+Since vert.x 4.0.0.Beta3 sockjs websocket connections are not established
+for load-balanced verticles until the same verticle processes the initial sockjs "/info" request and the websocket upgrade.
+Afterwards the initial successful upgrade the problem vanishes.
+This only occurs in combination with clustered sessions handled by an infinispan cluster manager.
 
 The complete setup of this reproducer is needed, changing one of the following "fixes" the issue:
 
